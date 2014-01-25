@@ -8,4 +8,9 @@ html, body {
 	-webkit-border-radius: 10px;
 	-moz-border-radius: 10px;
 	border-radius: 10px;
+	margin: 0 auto;
+}
+
+h2 {
+	text-align: center;
 }
