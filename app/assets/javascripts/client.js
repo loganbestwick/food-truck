@@ -1,5 +1,4 @@
 $(document).ready( function(){
-	console.log("ready");
 
 	function initialize() {
 		var mapOptions = {
@@ -14,5 +13,3 @@ $(document).ready( function(){
 
 
 })
-
-46.246

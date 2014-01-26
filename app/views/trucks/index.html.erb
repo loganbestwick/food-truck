@@ -1,0 +1,10 @@
+<h2>Food Truck Heaven</h2>
+<h4>Find Food Trucks in SF</h4>
+
+	<%= form_for :truck do |f| %>
+		<%= f.text_field :search_address, :placeholder => "Address..." %>
+		<br/>
+		<%= f.submit :id => "search_button", :value => "Find Me Food!" %>
+	<% end %>
+
+<div id="map-canvas"></div>
