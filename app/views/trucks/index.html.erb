@@ -4,6 +4,17 @@
 	<%= form_for :truck do |f| %>
 		<%= f.text_field :search_address, :placeholder => "Address..." %>
 		<br/>
+		<div id="radio-buttons">
+			<%= f.radio_button :radius, 'quarter_mile', :checked => true %>
+			<%= label :radius_quarter_mile, ".25 Mile" %>
+			<%= f.radio_button :radius, 'half_mile' %>
+			<%= label :radius_half_mile, ".5 Mile" %>
+			<%= f.radio_button :radius, 'three_quarter_mile' %>
+			<%= label :radius_three_quarter_mile, ".75 Mile" %>
+			<%= f.radio_button :radius, 'one_mile' %>
+			<%= label :radius_one_mile, "1 Mile" %>
+		</div>
+		<br/>
 		<%= f.submit :id => "search_button", :value => "Find Me Food!" %>
 	<% end %>
 

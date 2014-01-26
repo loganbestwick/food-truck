@@ -12,12 +12,22 @@ class TrucksController < ApplicationController
 	end
 
 	def create
-		p params
+		location = get_longitude_latitude(params['truck']['search_address'])
+		truck_data = HTTParty.get('https://data.sfgov.org/resource/rqzj-sfat.json')
+		ap truck_data[0]['latitude']
+		p "*" * 50
+		ap params
 		render 'index'
 	end
 
-	
 
+	
+	def get_longitude_latitude(address)
+    google_map_results = Geocoder.search(address)
+    latitude = google_map_results[0].data["geometry"]["location"]["lat"]
+    longitude = google_map_results[0].data["geometry"]["location"]["lng"]
+    {:latitude => latitude, :longitude => longitude}
+  end
 
 #Below methods are used to calculate distance in miles between two lat/long coords.
 	def power(num, pow)
