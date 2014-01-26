@@ -12,44 +12,24 @@ class TrucksController < ApplicationController
 	end
 
 	def create
-		location = get_longitude_latitude(params['truck']['search_address'])
-		truck_data = HTTParty.get('https://data.sfgov.org/resource/rqzj-sfat.json')
-		ap truck_data[0]['latitude']
-		p "*" * 50
-		ap params
+		search_location = Geokit::Geocoders::GoogleGeocoder.geocode(params['truck']['search_address'])		
+		trucks_array = HTTParty.get('https://data.sfgov.org/resource/rqzj-sfat.json')
+		p "8" * 50
+		ap find_trucks(trucks_array, search_location, params['truck']['radius'])
 		render 'index'
 	end
 
-
-	
-	def get_longitude_latitude(address)
-    google_map_results = Geocoder.search(address)
-    latitude = google_map_results[0].data["geometry"]["location"]["lat"]
-    longitude = google_map_results[0].data["geometry"]["location"]["lng"]
-    {:latitude => latitude, :longitude => longitude}
-  end
-
-#Below methods are used to calculate distance in miles between two lat/long coords.
-	def power(num, pow)
-		num ** pow
-	end
-
-	def haversine(lat1, long1, lat2, long2)
-	  dtor = Math::PI/180
-	  r = 3959
-	 
-	  rlat1 = lat1 * dtor 
-	  rlong1 = long1 * dtor 
-	  rlat2 = lat2 * dtor 
-	  rlong2 = long2 * dtor 
-	 
-	  dlon = rlong1 - rlong2
-	  dlat = rlat1 - rlat2
-	 
-	  a = power(Math::sin(dlat/2), 2) + Math::cos(rlat1) * Math::cos(rlat2) * power(Math::sin(dlon/2), 2)
-	  c = 2 * Math::atan2(Math::sqrt(a), Math::sqrt(1-a))
-	  d = r * c
-  	d
+	def find_trucks(trucks_array, search_location, range)
+		trucks_in_range = []
+		trucks_array.each do |truck_data|
+			ap truck_data
+			truck_location = Geokit::Geocoders::GoogleGeocoder.geocode("#{truck_data['latitude']}, #{truck_data['longitude']}")
+			if search_location.distance_to(truck_location) <= range.to_f
+				p search_location.distance_to(truck_location)
+				trucks_in_range << truck_data
+			end
+		end
+		trucks_in_range
 	end
 
 end

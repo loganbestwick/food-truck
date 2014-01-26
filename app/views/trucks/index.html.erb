@@ -5,13 +5,13 @@
 		<%= f.text_field :search_address, :placeholder => "Address..." %>
 		<br/>
 		<div id="radio-buttons">
-			<%= f.radio_button :radius, 'quarter_mile', :checked => true %>
+			<%= f.radio_button :radius, '.25', :checked => true %>
 			<%= label :radius_quarter_mile, ".25 Mile" %>
-			<%= f.radio_button :radius, 'half_mile' %>
+			<%= f.radio_button :radius, '.5' %>
 			<%= label :radius_half_mile, ".5 Mile" %>
-			<%= f.radio_button :radius, 'three_quarter_mile' %>
+			<%= f.radio_button :radius, '.75' %>
 			<%= label :radius_three_quarter_mile, ".75 Mile" %>
-			<%= f.radio_button :radius, 'one_mile' %>
+			<%= f.radio_button :radius, '1' %>
 			<%= label :radius_one_mile, "1 Mile" %>
 		</div>
 		<br/>

@@ -9,9 +9,10 @@ gem 'pg'
 gem 'haml-rails'
 
 gem 'geocoder'
+gem 'geokit'
 
 gem 'httparty'
-gem 'json'
+
 
 gem 'awesome_print'
 
