@@ -12,10 +12,10 @@ class TrucksController < ApplicationController
 	end
 
 	def create
-		search_location = Geokit::Geocoders::GoogleGeocoder.geocode(params['truck']['search_address'])		
+		search_location = get_longitude_latitude(params['truck']['search_address'])
 		trucks_array = HTTParty.get('https://data.sfgov.org/resource/rqzj-sfat.json')
-		p "8" * 50
-		ap find_trucks(trucks_array, search_location, params['truck']['radius'])
+		clean_truck_data(trucks_array)
+		find_trucks(trucks_array, search_location, params['truck']['radius'])
 		render 'index'
 	end
 
@@ -23,13 +23,27 @@ class TrucksController < ApplicationController
 		trucks_in_range = []
 		trucks_array.each do |truck_data|
 			ap truck_data
-			truck_location = Geokit::Geocoders::GoogleGeocoder.geocode("#{truck_data['latitude']}, #{truck_data['longitude']}")
-			if search_location.distance_to(truck_location) <= range.to_f
-				p search_location.distance_to(truck_location)
+			distance = GeoDistance::Haversine.geo_distance(search_location[:latitude], search_location[:longitude], 
+				truck_data["latitude"], truck_data["longitude"] ).to_miles
+			if distance.miles <= range.to_f
+				p distance.miles
 				trucks_in_range << truck_data
 			end
 		end
 		trucks_in_range
 	end
+
+	def get_longitude_latitude(address)
+    google_map_results = Geocoder.search(address)
+    latitude = google_map_results[0].data["geometry"]["location"]["lat"]
+    longitude = google_map_results[0].data["geometry"]["location"]["lng"]
+    {:latitude => latitude, :longitude => longitude}
+  end
+
+  def clean_truck_data(trucks_array)
+  	p trucks_array.count
+  	trucks_array.delete_if {|truck| truck["latitude"] == nil}
+  	p trucks_array.count
+  end
 
 end

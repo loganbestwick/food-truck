@@ -9,6 +9,7 @@ gem 'pg'
 gem 'haml-rails'
 
 gem 'geocoder'
+gem 'geo-distance', "~> 0.2.0"
 gem 'geokit'
 
 gem 'httparty'
