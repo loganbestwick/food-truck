@@ -1,3 +1,20 @@
-Food-Truck
+Food Truck SF - http://foodtrucksf.herokuapp.com/
 
-The goal of this app is to create a single page map app to display the closest food truck locations given a specific location. The front-end will be done in javascript. The backend will be done initially in Rails. If time permits, Node.js will be explored.
+Food Truck SF is a simple one page app which displays food truck locations based on a user-inputted address and a selected search radius. Real-time food truck data is pulled from https://data.sfgov.org. The client-side portion of the app is built in JavaScript with jQuery. The back-end is done in Rails with the following gems: Geocoder, Geodistance, and HTTParty. The Google Maps V3 API is used for mapping. 
+
+Thoughts
+--------
+
+- Food Truck SF is a pretty simple, straight forward, single page app. There is not a whole lot of magic required to get it running. Because of this, using Rails is not the best choice. Rails is fantastic for building out large projects with lots of assets but for needs of this project, Rails provides a whole lot of unneeded fat. I have some exposure to Node.js and from what I have gathered, a light-weight simpler backend such as Node would be much more suitable to build this project out. 
+- I was reminded once again of how valuable good documentation is. Google Maps, being one of the most commonly used API's on the web, is so well documented that any issue I ran into was solved with relative ease.
+
+Memorable Moments
+-----------------
+
+- The biggest hang up I had during development was calculating the distance between sets of lat/long. The first attempt I made was by using a hard equation. The results did not come out correct unfortunately. I then tried the Geokit gem, which is a well documented full packaged library. In order to calculate distances between two points though, the lat/lon had to be attributes of an instance of the Geokit class. Given a lat/lon, Geokit could tap into Google's geocoding service and create the object. Unfortunately, Google doesn't take kindly to over 600 requests in a short amount of time. I kept getting timed out. I then tried another gem called Geodistance which also failed me for reasons I cannot remember. Finally, I found a reliable MIT equation which produced reliable results. I abstracted the code out into a module called GeoMethods and used this calculate the distance between the trucks and the user inputted address.
+
+Thanks for reading!
+
+Questions? Comments? Feel free to email me at loganbestwick.com
+
+Logan Bestwick
