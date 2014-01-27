@@ -1,0 +1,22 @@
+<h2>Food Truck Heaven</h2>
+<h4>Find Food Trucks in SF</h4>
+
+	<%= form_for :truck do |f| %>
+		<%= f.text_field :search_address, :placeholder => "Address..." %>
+		<br/>
+		<div id="radio-buttons">
+			Search Radius:
+			<%= f.radio_button :radius, '.125', :checked => true %>
+			<%= label :radius_eighth_mile, "1/8 Mile" %>
+			<%= f.radio_button :radius, '.25' %>
+			<%= label :radius_quarter_mile, "1/4 Mile" %>
+			<%= f.radio_button :radius, '.5' %>
+			<%= label :radius_half_mile, "1/2 Mile" %>
+			<%= f.radio_button :radius, '1' %>
+			<%= label :radius_one_mile, "1 Mile" %>
+		</div>
+		<br/>
+		<%= f.submit :id => "search_button", :value => "Find Me Trucks!" %>
+	<% end %>
+
+<div id="map-canvas"></div>

@@ -8,6 +8,15 @@ gem 'rails', '3.2.13'
 gem 'pg'
 gem 'haml-rails'
 
+gem 'geocoder'
+gem 'geo-distance', "~> 0.2.0"
+gem 'geokit'
+
+gem 'httparty'
+
+
+gem 'awesome_print'
+
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
