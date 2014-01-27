@@ -23,6 +23,9 @@ $(document).ready( function(){
 				data: {"search_address" : address, "radius" : radius},
 				dataType: 'json'
 			}).done(function(data){
+				if (data.length < 1){
+					alert("There were no food trucks found around that address. Please try another search.")
+				}
 				addMarker(data);
 				var newCenter = new google.maps.LatLng(parseFloat(data[0]["latitude"]), parseFloat(data[0]["longitude"]));
 				map.panTo(newCenter);
