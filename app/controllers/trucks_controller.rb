@@ -12,11 +12,11 @@ class TrucksController < ApplicationController
 	end
 
 	def create
-		search_location = get_longitude_latitude(params['truck']['search_address'])
+		search_location = get_longitude_latitude(params['search_address'])
 		trucks_array = HTTParty.get('https://data.sfgov.org/resource/rqzj-sfat.json')
 		clean_truck_data(trucks_array)
-		find_trucks(trucks_array, search_location, params['truck']['radius'])
-		render 'index'
+		truck_results = find_trucks(trucks_array, search_location, params['radius'])
+		render :json => truck_results
 	end
 
 

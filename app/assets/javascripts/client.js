@@ -11,5 +11,19 @@ $(document).ready( function(){
 
 	google.maps.event.addDomListener(window, 'load', initialize);
 
+	$("#search_button").on('click', function(e){
+		e.preventDefault();
+		var address = $('#truck_search_address').val();
+		var radius = $("input:radio:checked").val();
+		$.ajax({
+			url: "/trucks",
+			type: "post",
+			data: {"search_address" : address, "radius" : radius},
+			dataType: 'json'
+		}).done(function(data){
+			console.log(data);
+		})
+	});
+
 
 })
