@@ -18,12 +18,14 @@ $(document).ready( function(){
 			var address = $('#truck_search_address').val();
 			var radius = $("input:radio:checked").val();
 			$.ajax({
-				url: "/trucks",
-				type: "post",
+				url: "/trucks/new",
+				type: "get",
 				data: {"search_address" : address, "radius" : radius},
 				dataType: 'json'
 			}).done(function(data){
 				addMarker(data);
+				var newCenter = new google.maps.LatLng(parseFloat(data[0]["latitude"]), parseFloat(data[0]["longitude"]));
+				map.panTo(newCenter);
 			})
 		});
 
@@ -40,7 +42,7 @@ $(document).ready( function(){
 					infoWindowIndex : i
 				});
 
-				var content = "<h2>" + json[i]["applicant"] + "</h2>" + "<div>" + json[i]["fooditems"] + "</div>";
+				var content = "<h2>" + json[i]["applicant"] + "</h2>" + "<h4>" + json[i]["address"] + "</h4>" + "<div>" + json[i]["fooditems"] + "</div>";
 				var infoWindow = new google.maps.InfoWindow({
 					content: content
 				});
@@ -50,7 +52,7 @@ $(document).ready( function(){
 						openInfoWindow = [];
 					}
 					map.panTo(e.latLng);
-					map.setZoom(15);
+					map.setZoom(14);
 					infoWindows[this.infoWindowIndex].open(map, this);
 					openInfoWindow.push(infoWindows[this.infoWindowIndex])
 				});
