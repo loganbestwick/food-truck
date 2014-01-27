@@ -1,6 +1,8 @@
 $(document).ready( function(){
 
 	var markersArray = [];
+	var infoWindows = [];
+	var openInfoWindow = [];
 
 	function initialize() {
 		var mapOptions = {
@@ -33,8 +35,27 @@ $(document).ready( function(){
 				var latLng = new google.maps.LatLng(json[i]["latitude"], json[i]["longitude"]);
 				var marker = new google.maps.Marker({
 					position: latLng,
-					map: map
+					map: map,
+					title: json[i]["applicant"],
+					infoWindowIndex : i
 				});
+
+				var content = "<h2>" + json[i]["applicant"] + "</h2>" + "<div>" + json[i]["fooditems"] + "</div>";
+				var infoWindow = new google.maps.InfoWindow({
+					content: content
+				});
+				google.maps.event.addListener(marker, 'click', function(e){
+					if (openInfoWindow.length > 0) {
+						openInfoWindow[0].close();
+						openInfoWindow = [];
+					}
+					map.panTo(e.latLng);
+					map.setZoom(15);
+					infoWindows[this.infoWindowIndex].open(map, this);
+					openInfoWindow.push(infoWindows[this.infoWindowIndex])
+				});
+
+				infoWindows.push(infoWindow);
 				markersArray.push(marker);
 			}
 		}
