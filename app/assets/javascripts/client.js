@@ -1,6 +1,6 @@
 $(document).ready( function(){
 
-	var marker;
+	var markersArray = [];
 
 	function initialize() {
 		var mapOptions = {
@@ -9,6 +9,7 @@ $(document).ready( function(){
 		};
 
 		var map = new google.maps.Map($("#map-canvas")[0], mapOptions);
+
 
 		$("#search_button").on('click', function(e){
 			e.preventDefault();
@@ -25,16 +26,24 @@ $(document).ready( function(){
 		});
 
 		function addMarker(json) {
-			if (marker) {
-				marker.setMap(null);
+			if (markersArray.length > 0){
+				removeMarkers();
 			}
 			for(i = 0; i < json.length; i++) {
 				var latLng = new google.maps.LatLng(json[i]["latitude"], json[i]["longitude"]);
-				var market = new google.maps.Marker({
+				var marker = new google.maps.Marker({
 					position: latLng,
 					map: map
 				});
+				markersArray.push(marker);
 			}
+		}
+
+		function removeMarkers(){
+			for (var i = 0; i < markersArray.length; i++){
+				markersArray[i].setMap(null);
+			}
+			markersArray.length = 0;
 		}
 
 	}
